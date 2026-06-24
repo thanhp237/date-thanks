@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Invitation</title>
+  <style>
+    :root {
+      --ink: #251a24;
+      --muted: #746876;
+      --paper: rgba(255, 252, 248, 0.92);
+      --paper-solid: #fffaf5;
+      --rose: #d84c6f;
+      --rose-dark: #ad2f52;
+      --teal: #08766f;
+      --amber: #d8902f;
+      --line: rgba(37, 26, 36, 0.12);
+      --shadow: 0 24px 70px rgba(37, 26, 36, 0.22);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ink);
+      background: #161116;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+    }
+
+    .page {
+      min-height: 100vh;
+      background:
+        linear-gradient(90deg, rgba(17, 12, 16, 0.78), rgba(17, 12, 16, 0.18) 50%, rgba(17, 12, 16, 0.76)),
+        linear-gradient(180deg, rgba(17, 12, 16, 0.12), rgba(17, 12, 16, 0.68)),
+        url("assets/cafe-date-hero.png") center / cover fixed;
+    }
+
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      align-items: center;
+      padding: 32px clamp(18px, 5vw, 72px);
+    }
+
+    .hero-grid {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(320px, 430px);
+      gap: clamp(24px, 5vw, 64px);
+      align-items: center;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff6ee;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      color: #fffaf5;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 8vw, 86px);
+      line-height: 0.97;
+      letter-spacing: 0;
+      hyphens: none;
+      text-wrap: balance;
+      word-break: normal;
+      text-shadow: 0 14px 40px rgba(0, 0, 0, 0.38);
+    }
+
+    .lead {
+      max-width: 610px;
+      margin: 22px 0 0;
+      color: rgba(255, 250, 245, 0.9);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.62;
+      text-shadow: 0 8px 28px rgba(0, 0, 0, 0.32);
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      max-width: 560px;
+      margin-top: 30px;
+    }
+
+    .stat {
+      min-height: 82px;
+      padding: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.12);
+      color: #fffaf5;
+      backdrop-filter: blur(12px);
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #ffe1b1;
+      font-size: 20px;
+    }
+
+    .stat span {
+      color: rgba(255, 250, 245, 0.84);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .invite-panel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-title {
+      min-width: 0;
+    }
+
+    .panel-title span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .panel-title strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 20px;
+    }
+
+    .panel-body {
+      padding: 22px 20px 20px;
+    }
+
+    .message {
+      margin: 0 0 18px;
+      color: #433740;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .choice-group {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 18px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 58px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.68);
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+
+    .choice:hover,
+    .choice:has(input:checked) {
+      transform: translateY(-1px);
+      border-color: rgba(216, 76, 111, 0.52);
+      background: #fffdf9;
+    }
+
+    .choice input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--rose);
+    }
+
+    .choice strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .choice span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .choice em {
+      color: var(--teal);
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    label.field {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf9;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: rgba(8, 118, 111, 0.55);
+      box-shadow: 0 0 0 3px rgba(8, 118, 111, 0.12);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+      min-height: 50px;
+      position: relative;
+    }
+
+    .btn {
+      min-height: 50px;
+      padding: 12px 15px;
+      border-radius: var(--radius);
+      color: #fff;
+      font-weight: 850;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--rose);
+      box-shadow: 0 12px 24px rgba(216, 76, 111, 0.24);
+    }
+
+    .btn-primary:hover {
+      background: var(--rose-dark);
+    }
+
+    .btn-ghost {
+      background: #5f5961;
+      position: relative;
+    }
+
+    .btn-ghost.is-running {
+      position: absolute;
+      width: calc(50% - 6px);
+      z-index: 2;
+    }
+
+    .result {
+      display: none;
+      padding: 22px 20px 20px;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .result.is-visible {
+      display: block;
+    }
+
+    .result h2 {
+      margin: 0 0 10px;
+      color: var(--teal);
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .result p {
+      margin: 0 0 16px;
+      color: #433740;
+      line-height: 1.55;
+    }
+
+    .utility-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf9;
+      color: var(--ink);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .toast {
+      min-height: 22px;
+      margin-top: 12px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .confetti span {
+      position: absolute;
+      top: -18px;
+      width: 9px;
+      height: 14px;
+      border-radius: 2px;
+      opacity: 0;
+      animation: fall 1450ms ease-out forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--x), 112vh, 0) rotate(520deg);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .page {
+        background:
+          linear-gradient(180deg, rgba(17, 12, 16, 0.48), rgba(17, 12, 16, 0.82)),
+          url("assets/cafe-date-hero.png") center / cover fixed;
+        background-attachment: scroll;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 34px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        padding-top: 24px;
+      }
+
+      .quick-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .hero {
+        padding-inline: 14px;
+      }
+
+      h1 {
+        font-size: 38px;
+        line-height: 1.06;
+        text-wrap: pretty;
+      }
+
+      .panel-top,
+      .panel-body,
+      .result {
+        padding-inline: 15px;
+      }
+
+      .field-grid,
+      .actions,
+      .utility-row {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-ghost.is-running {
+        width: 100%;
+      }
+
+      .choice {
+        grid-template-columns: 18px 1fr;
+      }
+
+      .choice em {
+        grid-column: 2;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 1ms !important;
+        transition-duration: 1ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-label="Lời cảm ơn sau buổi hẹn">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">First date aftercare</div>
+          <h1>Cảm ơn em vì buổi date thật đáng nhớ.</h1>
+          <p class="lead">
+            Anh về nhà với một nụ cười hơi khó giấu. Nếu em cũng thấy hôm nay dễ thương vừa đủ,
+            mình chọn luôn một buổi tiếp theo nhé.
+          </p>
+          <div class="quick-stats" aria-label="Tóm tắt buổi hẹn">
+            <div class="stat">
+              <strong>10/10</strong>
+              <span>Điểm cho cuộc trò chuyện không bị hết chuyện.</span>
+            </div>
+            <div class="stat">
+              <strong>0</strong>
+              <span>Bug nghiêm trọng trong hệ thống cảm xúc.</span>
+            </div>
+            <div class="stat">
+              <strong>1</strong>
+              <span>Đề xuất nâng cấp: gặp lại nhau.</span>
+            </div>
+          </div>
+        </div>
+
+        <form class="invite-panel" id="inviteForm">
+          <div class="panel-top">
+            <div class="panel-title">
+              <span>Private invitation</span>
+              <strong>Lịch hẹn buổi hai</strong>
+            </div>
+          </div>
+
+          <div class="panel-body" id="formBody">
+            <p class="message">
+              Em chọn vibe trước, phần còn lại để anh chuẩn bị. Anh hứa sẽ nghiêm túc ở khoản đúng giờ,
+              còn khoản bối rối thì chưa dám cam kết.
+            </p>
+
+            <div class="choice-group" aria-label="Chọn kiểu hẹn">
+              <label class="choice">
+                <input type="radio" name="vibe" value="Cafe yên tĩnh + dessert" checked>
+                <span>
+                  <strong>Cafe yên tĩnh + dessert</strong>
+                  <span>Nói chuyện tiếp, thêm bánh ngon, nhịp vừa dịu.</span>
+                </span>
+                <em>Cozy</em>
+              </label>
+
+              <label class="choice">
+                <input type="radio" name="vibe" value="Ăn tối + đi dạo">
+                <span>
+                  <strong>Ăn tối + đi dạo</strong>
+                  <span>Một buổi gọn gàng, có món ngon và chút không khí ngoài trời.</span>
+                </span>
+                <em>Classic</em>
+              </label>
+
+              <label class="choice">
+                <input type="radio" name="vibe" value="Workshop nhẹ + cafe">
+                <span>
+                  <strong>Workshop nhẹ + cafe</strong>
+                  <span>Cùng làm gì đó vui vui rồi ngồi kể nhau nghe.</span>
+                </span>
+                <em>Fun</em>
+              </label>
+            </div>
+
+            <div class="field-grid">
+              <label class="field">
+                Ngày đẹp nhất
+                <input id="dateInput" type="date" required>
+              </label>
+              <label class="field">
+                Khung giờ
+                <select id="timeInput" required>
+                  <option value="18:30">18:30</option>
+                  <option value="19:00" selected>19:00</option>
+                  <option value="19:30">19:30</option>
+                  <option value="20:00">20:00</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="actions">
+              <button class="btn btn-primary" type="submit">Chốt lịch</button>
+              <button class="btn btn-ghost" id="noBtn" type="button">Để em suy nghĩ</button>
+            </div>
+          </div>
+
+          <div class="result" id="result">
+            <h2>Lịch đã được giữ chỗ.</h2>
+            <p id="summaryText"></p>
+            <div class="utility-row">
+              <button class="btn-secondary" id="copyBtn" type="button">Copy tin nhắn</button>
+              <button class="btn-secondary" id="calendarBtn" type="button">Tải file lịch</button>
+            </div>
+            <div class="toast" id="toast" role="status" aria-live="polite"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <script>
+    const form = document.getElementById("inviteForm");
+    const dateInput = document.getElementById("dateInput");
+    const timeInput = document.getElementById("timeInput");
+    const noBtn = document.getElementById("noBtn");
+    const result = document.getElementById("result");
+    const summaryText = document.getElementById("summaryText");
+    const copyBtn = document.getElementById("copyBtn");
+    const calendarBtn = document.getElementById("calendarBtn");
+    const submitBtn = form.querySelector("button[type='submit']");
+    const toast = document.getElementById("toast");
+    const confetti = document.getElementById("confetti");
+
+    const state = {
+      inviteText: "",
+      selectedDate: "",
+      selectedTime: "",
+      selectedVibe: ""
+    };
+
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function toDateValue(date) {
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+    }
+
+    function formatDateVi(value) {
+      const date = new Date(`${value}T00:00:00`);
+      return new Intl.DateTimeFormat("vi-VN", {
+        weekday: "long",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      }).format(date);
+    }
+
+    function setDefaultDate() {
+      const nextSaturday = new Date();
+      nextSaturday.setDate(nextSaturday.getDate() + ((6 - nextSaturday.getDay() + 7) % 7 || 7));
+      dateInput.min = toDateValue(new Date());
+      dateInput.value = toDateValue(nextSaturday);
+    }
+
+    function getSelectedVibe() {
+      return new FormData(form).get("vibe");
+    }
+
+    function buildInviteText() {
+      return `Cảm ơn em vì buổi hôm nay. Anh đã chuẩn bị option cho buổi tiếp theo: ${state.selectedVibe}, lúc ${state.selectedTime} ${formatDateVi(state.selectedDate)}. Nếu em thấy ổn thì mình chốt nha.`;
+    }
+
+    async function sendConfirmationEmail() {
+      if (window.location.protocol === "file:") {
+        throw new Error("Trang cần được deploy hoặc chạy qua server để gửi email.");
+      }
+
+      const response = await fetch("/api/confirm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          vibe: state.selectedVibe,
+          date: state.selectedDate,
+          time: state.selectedTime,
+          formattedDate: formatDateVi(state.selectedDate),
+          inviteText: state.inviteText,
+          userAgent: navigator.userAgent
+        })
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Không gửi được email.");
+      }
+
+      return data;
+    }
+
+    function burstConfetti() {
+      const colors = ["#d84c6f", "#08766f", "#d8902f", "#fff0c9", "#7d4a9e"];
+      confetti.innerHTML = "";
+
+      for (let index = 0; index < 58; index += 1) {
+        const piece = document.createElement("span");
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.background = colors[index % colors.length];
+        piece.style.setProperty("--x", `${Math.round((Math.random() - 0.5) * 260)}px`);
+        piece.style.animationDelay = `${Math.random() * 180}ms`;
+        confetti.appendChild(piece);
+      }
+
+      window.setTimeout(() => {
+        confetti.innerHTML = "";
+      }, 1900);
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      window.setTimeout(() => {
+        if (toast.textContent === message) {
+          toast.textContent = "";
+        }
+      }, 2600);
+    }
+
+    function moveNoButton() {
+      const container = noBtn.parentElement;
+      const maxX = Math.max(container.offsetWidth - noBtn.offsetWidth, 0);
+      const maxY = Math.max(container.offsetHeight - noBtn.offsetHeight, 0);
+
+      noBtn.classList.add("is-running");
+      noBtn.style.left = `${Math.round(Math.random() * maxX)}px`;
+      noBtn.style.top = `${Math.round(Math.random() * maxY)}px`;
+      noBtn.textContent = "Option này đang bảo trì";
+    }
+
+    function downloadCalendarFile() {
+      const [year, month, day] = state.selectedDate.split("-").map(Number);
+      const [hour, minute] = state.selectedTime.split(":").map(Number);
+      const start = new Date(year, month - 1, day, hour, minute);
+      const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
+      const stamp = new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+      const formatIcsDate = (date) => date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+      const ics = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Date Invitation//VI",
+        "BEGIN:VEVENT",
+        `UID:${Date.now()}@date-invitation`,
+        `DTSTAMP:${stamp}`,
+        `DTSTART:${formatIcsDate(start)}`,
+        `DTEND:${formatIcsDate(end)}`,
+        "SUMMARY:Buoi hen tiep theo",
+        `DESCRIPTION:${state.inviteText}`,
+        "END:VEVENT",
+        "END:VCALENDAR"
+      ].join("\r\n");
+
+      const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "lich-hen-vip-pro.ics";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(link.href);
+      showToast("Đã tạo file lịch.");
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("click", moveNoButton);
+    noBtn.addEventListener("focus", moveNoButton);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      state.selectedDate = dateInput.value;
+      state.selectedTime = timeInput.value;
+      state.selectedVibe = getSelectedVibe();
+      state.inviteText = buildInviteText();
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Đang gửi...";
+      summaryText.textContent = `Đã chốt option "${state.selectedVibe}" vào ${state.selectedTime}, ${formatDateVi(state.selectedDate)}. Anh sẽ nhận email xác nhận nếu trang đang chạy trên bản deploy.`;
+      result.classList.add("is-visible");
+      result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      burstConfetti();
+
+      try {
+        await sendConfirmationEmail();
+        showToast("Đã gửi email xác nhận cho anh.");
+      } catch (error) {
+        showToast(error.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Chốt lịch";
+      }
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      if (!state.inviteText) return;
+
+      try {
+        await navigator.clipboard.writeText(state.inviteText);
+        showToast("Đã copy tin nhắn.");
+      } catch (error) {
+        showToast("Không copy tự động được, nhưng tin nhắn đã hiện ở phần trên.");
+      }
+    });
+
+    calendarBtn.addEventListener("click", () => {
+      if (!state.inviteText) return;
+      downloadCalendarFile();
+    });
+
+    setDefaultDate();
+  </script>
+</body>
+</html>

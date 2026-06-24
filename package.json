@@ -1,0 +1,14 @@
+{
+  "name": "date-thanks-vip-pro",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  },
+  "devDependencies": {
+    "vercel": "^37.14.0"
+  }
+}
