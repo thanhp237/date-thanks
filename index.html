@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Date Invitation</title>
+  <title>First Date Invitation</title>
   <style>
     :root {
       --ink: #251a24;
@@ -469,27 +469,27 @@
 </head>
 <body>
   <main class="page">
-    <section class="hero" aria-label="Lời cảm ơn sau buổi hẹn">
+    <section class="hero" aria-label="Lời mời first date">
       <div class="hero-grid">
         <div class="hero-copy">
-          <div class="eyebrow">First date aftercare</div>
-          <h1>Cảm ơn em vì buổi date thật đáng nhớ.</h1>
+          <div class="eyebrow">First date invitation</div>
+          <h1>Anh muốn hẹn em một buổi first date.</h1>
           <p class="lead">
-            Anh về nhà với một nụ cười hơi khó giấu. Nếu em cũng thấy hôm nay dễ thương vừa đủ,
-            mình chọn luôn một buổi tiếp theo nhé.
+            Không cần quá cầu kỳ, chỉ cần một buổi đủ dễ thương để mình gặp nhau,
+            nói chuyện nhiều hơn và xem cảm giác của hai đứa dẫn mình đi tới đâu.
           </p>
           <div class="quick-stats" aria-label="Tóm tắt buổi hẹn">
             <div class="stat">
               <strong>10/10</strong>
-              <span>Điểm cho cuộc trò chuyện không bị hết chuyện.</span>
+              <span>Độ nghiêm túc của lời mời này.</span>
             </div>
             <div class="stat">
               <strong>0</strong>
-              <span>Bug nghiêm trọng trong hệ thống cảm xúc.</span>
+              <span>Áp lực phải hoàn hảo, chỉ cần thoải mái.</span>
             </div>
             <div class="stat">
               <strong>1</strong>
-              <span>Đề xuất nâng cấp: gặp lại nhau.</span>
+              <span>Người anh muốn rủ đi first date.</span>
             </div>
           </div>
         </div>
@@ -498,7 +498,7 @@
           <div class="panel-top">
             <div class="panel-title">
               <span>Private invitation</span>
-              <strong>Lịch hẹn buổi hai</strong>
+              <strong>Lịch hẹn first date</strong>
             </div>
           </div>
 
@@ -513,7 +513,7 @@
                 <input type="radio" name="vibe" value="Cafe yên tĩnh + dessert" checked>
                 <span>
                   <strong>Cafe yên tĩnh + dessert</strong>
-                  <span>Nói chuyện tiếp, thêm bánh ngon, nhịp vừa dịu.</span>
+                  <span>Nói chuyện nhẹ nhàng, thêm bánh ngon, nhịp vừa dịu.</span>
                 </span>
                 <em>Cozy</em>
               </label>
@@ -625,7 +625,7 @@
     }
 
     function buildInviteText() {
-      return `Cảm ơn em vì buổi hôm nay. Anh đã chuẩn bị option cho buổi tiếp theo: ${state.selectedVibe}, lúc ${state.selectedTime} ${formatDateVi(state.selectedDate)}. Nếu em thấy ổn thì mình chốt nha.`;
+      return `Anh muốn hẹn em đi first date: ${state.selectedVibe}, lúc ${state.selectedTime} ${formatDateVi(state.selectedDate)}. Nếu em thấy ổn thì mình chốt nha.`;
     }
 
     async function sendConfirmationEmail() {
@@ -719,7 +719,7 @@
         `DTSTAMP:${stamp}`,
         `DTSTART:${formatIcsDate(start)}`,
         `DTEND:${formatIcsDate(end)}`,
-        "SUMMARY:Buoi hen tiep theo",
+        "SUMMARY:First date",
         `DESCRIPTION:${state.inviteText}`,
         "END:VEVENT",
         "END:VCALENDAR"
@@ -728,7 +728,7 @@
       const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "lich-hen-vip-pro.ics";
+      link.download = "lich-hen-first-date.ics";
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -750,7 +750,7 @@
 
       submitBtn.disabled = true;
       submitBtn.textContent = "Đang gửi...";
-      summaryText.textContent = `Cảm ơn em đã chốt option "${state.selectedVibe}" vào ${state.selectedTime}, ${formatDateVi(state.selectedDate)}. Anh sẽ chuẩn bị một buổi thật dễ thương nha.`;
+      summaryText.textContent = `Cảm ơn em đã chốt first date option "${state.selectedVibe}" vào ${state.selectedTime}, ${formatDateVi(state.selectedDate)}. Anh sẽ chuẩn bị một buổi thật dễ thương nha.`;
       result.classList.add("is-visible");
       result.scrollIntoView({ behavior: "smooth", block: "nearest" });
       burstConfetti();
