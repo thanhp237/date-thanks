@@ -685,6 +685,14 @@
     }
 
     function moveNoButton() {
+      if (window.matchMedia("(max-width: 520px), (pointer: coarse)").matches) {
+        noBtn.classList.remove("is-running");
+        noBtn.style.left = "";
+        noBtn.style.top = "";
+        noBtn.textContent = "Hay là chốt thử nha";
+        return;
+      }
+
       const container = noBtn.parentElement;
       const maxX = Math.max(container.offsetWidth - noBtn.offsetWidth, 0);
       const maxY = Math.max(container.offsetHeight - noBtn.offsetHeight, 0);
