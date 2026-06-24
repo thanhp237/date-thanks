@@ -85,18 +85,24 @@
     }
 
     h1 {
-      max-width: 680px;
+      max-width: 720px;
       margin: 0;
       color: #fffaf5;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(38px, 6vw, 68px);
-      line-height: 1.06;
+      font-family: "Segoe UI", Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(40px, 5.4vw, 66px);
+      font-weight: 850;
+      line-height: 1.08;
       letter-spacing: 0;
       hyphens: none;
-      text-wrap: balance;
-      word-break: keep-all;
+      text-wrap: nowrap;
+      word-break: normal;
       overflow-wrap: normal;
       text-shadow: 0 14px 40px rgba(0, 0, 0, 0.38);
+    }
+
+    h1 .line {
+      display: block;
+      white-space: nowrap;
     }
 
     .lead {
@@ -427,9 +433,8 @@
       }
 
       h1 {
-        font-size: 35px;
+        font-size: 34px;
         line-height: 1.12;
-        text-wrap: pretty;
       }
 
       .panel-top,
@@ -457,6 +462,12 @@
       }
     }
 
+    @media (max-width: 370px) {
+      h1 {
+        font-size: 30px;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -474,7 +485,10 @@
       <div class="hero-grid">
         <div class="hero-copy">
           <div class="eyebrow">First date invitation</div>
-          <h1>Anh muốn hẹn em một buổi first date.</h1>
+          <h1>
+            <span class="line">Anh muốn hẹn em</span>
+            <span class="line">một buổi first date.</span>
+          </h1>
           <p class="lead">
             Không cần quá cầu kỳ, chỉ cần một buổi đủ dễ thương để mình gặp nhau,
             nói chuyện nhiều hơn và xem cảm giác của hai đứa dẫn mình đi tới đâu.
